@@ -26,7 +26,7 @@ public class TCPService {
             mSocket = new Socket(mHost, mPort);
             out = new PrintWriter(mSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-            byte[] message = {9, 8, 7, 6, 5};
+            byte[] message = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
 
             sendMessage(message);
             callback.sendState(ResponseState.SUCCESS_CONNECT);
