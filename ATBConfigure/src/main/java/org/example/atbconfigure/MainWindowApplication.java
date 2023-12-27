@@ -14,12 +14,14 @@ import org.example.atbconfigure.tcpService.TCPService;
 
 import java.io.IOException;
 
+import static org.example.atbconfigure.util.AppConstant.APP_NAME;
 import static org.example.atbconfigure.util.IndicatorUtil.*;
 import static org.example.atbconfigure.util.PaneUtil.*;
 
-public class HelloApplication extends Application {
+public class MainWindowApplication extends Application {
     StackPane stackPane;
     Text textState = new Text();
+    Stage stage1 = new Stage();
     ResponseStateCallback callback = new ResponseStateCallback() {
         @Override
         public void sendState(ResponseState state) {
@@ -50,6 +52,7 @@ public class HelloApplication extends Application {
         buttonConnect.setOnAction(actionEvent -> {
             TCPService tcpService = new TCPService(callback);
             tcpService.start(TCPService.mHost, TCPService.mPort);
+            stage1.show();
 
         });
 
@@ -63,8 +66,14 @@ public class HelloApplication extends Application {
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);
         Scene scene = new Scene(rootPane, 800, 600);
+        stage.setTitle(APP_NAME);
         stage.setScene(scene);
         stage.show();
+
+        stage1.setTitle("MORE");
+        GridPane rootPane1 = getGridPane(50, 50, 5, true);
+        Scene scene1 = new Scene(rootPane1, 400, 400);
+        stage1.setScene(scene1);
 
     }
 
