@@ -19,7 +19,7 @@ public class IndicatorUtil {
         if(circle.getFill() == off) circle.setFill(on); else circle.setFill(off);
     }
     public static void setColorIndication(StackPane pane, Paint state){
-        Circle circle = (Circle) pane.getChildren().get(0);
+         Circle circle = (Circle) pane.getChildren().get(0);
          circle.setFill(state);
     }
 }
