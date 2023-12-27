@@ -3,6 +3,7 @@ package org.example.atbconfigure;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -65,7 +66,8 @@ public class MainWindowApplication extends Application {
 
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);
-        Scene scene = new Scene(rootPane, 800, 600);
+        ScrollPane scrollPane = new ScrollPane(rootPane);
+        Scene scene = new Scene(scrollPane, 800, 600);
         stage.setTitle(APP_NAME);
         stage.setScene(scene);
         stage.show();
