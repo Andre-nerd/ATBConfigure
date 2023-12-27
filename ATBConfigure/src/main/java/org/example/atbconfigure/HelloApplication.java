@@ -8,7 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.example.atbconfigure.domain.ResponseState;
+import org.example.atbconfigure.domain.enums.ResponseState;
 import org.example.atbconfigure.tcpService.ResponseStateCallback;
 import org.example.atbconfigure.tcpService.TCPService;
 
@@ -18,13 +18,20 @@ import static org.example.atbconfigure.util.IndicatorUtil.*;
 import static org.example.atbconfigure.util.PaneUtil.*;
 
 public class HelloApplication extends Application {
-    Color color = Color.RED;
     StackPane stackPane;
+    Text textState = new Text();
     ResponseStateCallback callback = new ResponseStateCallback() {
         @Override
         public void sendState(ResponseState state) {
-            if(state == ResponseState.SUCCESS_CONNECT) {
-                setColorIndication(stackPane, Color.GREEN);
+            switch (state) {
+                case SUCCESS_CONNECT:
+                    setColorIndication(stackPane, Color.GREEN);
+                    textState.setText(ResponseState.SUCCESS_CONNECT.getState());
+                    break;
+                case WRONG_CONNECT:
+                    setColorIndication(stackPane, Color.RED);
+                    textState.setText(ResponseState.WRONG_CONNECT.getState());
+                    break;
             }
         }
     };
@@ -34,30 +41,27 @@ public class HelloApplication extends Application {
 
 
         TextField textIp = new TextField();
+        textIp.setText(TCPService.mHost + ":" + TCPService.mPort);
         textIp.setOnKeyPressed(keyEvent -> {
             System.out.println(textIp.getText());
         });
-        stackPane = getIndicatorStack(8, Color.RED);
+        stackPane = getIndicatorStack(8, Color.GRAY);
         Button buttonConnect = new Button("Connect");
         buttonConnect.setOnAction(actionEvent -> {
             TCPService tcpService = new TCPService(callback);
-            tcpService.start();
+            tcpService.start(TCPService.mHost, TCPService.mPort);
 
-//            changeColorIndication(stackPane, Color.RED, Color.BLUE);
         });
 
-        GridPane gridBox1 = constructPanelTextIndicatorButton(textIp,stackPane,buttonConnect);
-
-        Text text2 = new Text("second");
-        HBox hBox2 = getHBoxPadding(10);
-        hBox2.getChildren().add(text2);
-
+        GridPane gridBox1 = constructPanelTextIndicatorButton(textIp, stackPane, buttonConnect);
+        HBox hBox = getHBoxPadding(10);
+        hBox.getChildren().add(textState);
 
 
         GridPane rootPane = getGridPane(50, 50, 5, true);
 
         rootPane.add(gridBox1, 0, 0);
-        rootPane.add(hBox2, 1, 0);
+        rootPane.add(hBox, 1, 0);
         Scene scene = new Scene(rootPane, 800, 600);
         stage.setScene(scene);
         stage.show();

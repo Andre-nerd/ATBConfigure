@@ -1,6 +1,6 @@
 package org.example.atbconfigure.tcpService;
 
-import org.example.atbconfigure.domain.ResponseState;
+import org.example.atbconfigure.domain.enums.ResponseState;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,9 +9,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class TCPService {
+    public static final String mHost = "192.168.128.59";
+    public static final int mPort = 9999;
     private Socket mSocket;
-    private String mHost = "192.168.128.59";
-    private int mPort = 9999;
     private PrintWriter out;
     private BufferedReader in;
     ResponseStateCallback callback;
@@ -20,7 +20,7 @@ public class TCPService {
         this.callback = callback;
     }
 
-    public void start() {
+    public void start(String mHost, int mPort) {
         try {
             mSocket = new Socket(mHost, mPort);
             out = new PrintWriter(mSocket.getOutputStream(), true);
@@ -28,8 +28,8 @@ public class TCPService {
             out.println(102020);
             callback.sendState(ResponseState.SUCCESS_CONNECT);
         } catch (Exception ex) {
-            out.println("void start() error" + ex.getMessage());
             callback.sendState(ResponseState.WRONG_CONNECT);
+            out.println("void start() error" + ex.getMessage());
         }
     }
 
@@ -63,15 +63,15 @@ public class TCPService {
             try {
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
             } catch (IOException e) {
-                out.println("out = new PrintWriter error" + e.getMessage());
                 callbackState.sendState(ResponseState.WRONG_SEND);
+                out.println("out = new PrintWriter error" + e.getMessage());
             }
             try {
                 in = new BufferedReader(
                         new InputStreamReader(clientSocket.getInputStream()));
             } catch (IOException e) {
-                out.println("out = new PrintWriter error" + e.getMessage());
                 callbackState.sendState(ResponseState.WRONG_READ);
+                out.println("out = new PrintWriter error" + e.getMessage());
             }
 
             String inputLine;
@@ -86,8 +86,8 @@ public class TCPService {
                     out.println(inputLine);
                     callback.sendResponse(inputLine);
                 } catch (RuntimeException | IOException e) {
-                    out.println("((inputLine = in.readLine()) error" + e.getMessage());
                     callbackState.sendState(ResponseState.WRONG_READ);
+                    out.println("((inputLine = in.readLine()) error" + e.getMessage());
                 }
             }
 

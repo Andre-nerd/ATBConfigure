@@ -4,6 +4,7 @@ module org.example.atbconfigure {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires static lombok;
 
     opens org.example.atbconfigure to javafx.fxml;
     exports org.example.atbconfigure;
