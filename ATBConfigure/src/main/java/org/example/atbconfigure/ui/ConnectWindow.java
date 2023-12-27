@@ -22,7 +22,7 @@ public class ConnectWindow {
     private static StackPane stackPane;
 
     public ConnectWindow(TCPService tcpService) {
-        this.tcpService = tcpService;
+        ConnectWindow.tcpService = tcpService;
     }
 
     public GridPane create() {
