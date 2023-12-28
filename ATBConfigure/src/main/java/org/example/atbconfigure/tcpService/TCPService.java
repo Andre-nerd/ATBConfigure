@@ -1,6 +1,5 @@
 package org.example.atbconfigure.tcpService;
 
-import lombok.extern.slf4j.Slf4j;
 import org.example.atbconfigure.domain.enums.ResponseState;
 
 import java.io.*;
@@ -10,15 +9,18 @@ import static org.example.atbconfigure.util.CommonUtils.printArray;
 
 
 public class TCPService {
-    public static final String mHost = "192.168.128.59";
+    //    public static final String mHost = "192.168.128.59";
+    public static final String mHost = "192.168.43.239";
     public static final int mPort = 9999;
     private Socket mSocket;
     private PrintWriter out;
     private BufferedReader in;
-    ResponseStateCallback callback;
+    ResponseStateCallback stateCallback;
+    ResponseCallback responseCallback;
 
-    public TCPService(ResponseStateCallback callback) {
-        this.callback = callback;
+    public TCPService(ResponseStateCallback stateCallback, ResponseCallback responseCallback) {
+        this.stateCallback = stateCallback;
+        this.responseCallback = responseCallback;
     }
 
     public void start(String mHost, int mPort) {
@@ -26,14 +28,15 @@ public class TCPService {
             mSocket = new Socket(mHost, mPort);
             out = new PrintWriter(mSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-            byte[] message = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
+            byte[] messageForCheck = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
+            sendMessage(messageForCheck);
 
-            sendMessage(message);
-            callback.sendState(ResponseState.SUCCESS_CONNECT);
-            EchoClientHandler handler = new EchoClientHandler(mSocket, callback, null);
+            stateCallback.sendState(ResponseState.SUCCESS_CONNECT);
+            EchoClientHandler handler = new EchoClientHandler(mSocket, stateCallback, responseCallback);
             handler.start();
+
         } catch (Exception ex) {
-            callback.sendState(ResponseState.WRONG_CONNECT);
+            stateCallback.sendState(ResponseState.WRONG_CONNECT);
             out.println("void start() error" + ex.getMessage());
         }
     }
@@ -43,6 +46,7 @@ public class TCPService {
             DataOutputStream dOut = new DataOutputStream(mSocket.getOutputStream());
             dOut.write(message);
         } catch (IOException e) {
+            stateCallback.sendState(ResponseState.WRONG_SEND);
             out.println("void sendMessage error" + e.getMessage());
         }
     }
@@ -62,7 +66,7 @@ public class TCPService {
         private PrintWriter out;
         private BufferedReader in;
         ResponseStateCallback callbackState;
-        ResponseCallback callback;
+        ResponseCallback callbackResponse;
 
         public EchoClientHandler(
                 Socket socket,
@@ -71,7 +75,7 @@ public class TCPService {
 
             this.clientSocket = socket;
             this.callbackState = callbackState;
-            this.callback = callback;
+            this.callbackResponse = callback;
         }
 
         public void run() {
@@ -89,6 +93,7 @@ public class TCPService {
                     System.arraycopy(message, 0, fullResponseArray, header.length, message.length);
                     printArray(fullResponseArray);
                     System.out.println();
+                    callbackResponse.sendResponse(fullResponseArray);
                 }
             } catch (IOException e) {
                 callbackState.sendState(ResponseState.WRONG_CONNECT);

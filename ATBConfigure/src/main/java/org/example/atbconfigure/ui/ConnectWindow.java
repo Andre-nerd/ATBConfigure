@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import org.example.atbconfigure.domain.enums.ResponseState;
 import org.example.atbconfigure.tcpService.TCPService;
@@ -40,7 +41,7 @@ public class ConnectWindow {
         hBox.getChildren().add(textStateConnection);
 
 
-        GridPane rootPane = getGridPane(50, 50, 5, true);
+        GridPane rootPane = getGridPane(50, 50, 5, false);
 
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);
