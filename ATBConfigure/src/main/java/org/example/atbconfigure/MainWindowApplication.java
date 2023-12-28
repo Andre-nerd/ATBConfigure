@@ -56,7 +56,7 @@ public class MainWindowApplication extends Application {
         vBox.getChildren().add(connectRaw);
         vBox.getChildren().add(paneOnOfRaw);
 
-        ScrollPane browsing = browsingWindow.create();
+        VBox browsing = browsingWindow.create();
 
         GridPane gridPane = getGridPane(60, 40,10, false);
         gridPane.add(vBox,0,0);
