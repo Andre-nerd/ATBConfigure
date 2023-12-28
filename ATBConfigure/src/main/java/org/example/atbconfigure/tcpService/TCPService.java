@@ -28,8 +28,8 @@ public class TCPService {
             mSocket = new Socket(mHost, mPort);
             out = new PrintWriter(mSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-            byte[] messageForCheck = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
-            sendMessage(messageForCheck);
+//            byte[] messageForCheck = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
+//            sendMessage(messageForCheck);
 
             stateCallback.sendState(ResponseState.SUCCESS_CONNECT);
             EchoClientHandler handler = new EchoClientHandler(mSocket, stateCallback, responseCallback);
@@ -37,7 +37,7 @@ public class TCPService {
 
         } catch (Exception ex) {
             stateCallback.sendState(ResponseState.WRONG_CONNECT);
-            out.println("void start() error" + ex.getMessage());
+            System.out.println("void start() error" + ex.getMessage());
         }
     }
 
@@ -45,9 +45,11 @@ public class TCPService {
         try {
             DataOutputStream dOut = new DataOutputStream(mSocket.getOutputStream());
             dOut.write(message);
+            System.out.println("send message :");
+            printArray(message);
         } catch (IOException e) {
             stateCallback.sendState(ResponseState.WRONG_SEND);
-            out.println("void sendMessage error" + e.getMessage());
+            System.out.println("void sendMessage error" + e.getMessage());
         }
     }
 
@@ -56,7 +58,7 @@ public class TCPService {
         try {
             mSocket.close();
         } catch (Exception ex) {
-            out.println("void stop() error" + ex.getMessage());
+            System.out.println("void stop() error" + ex.getMessage());
         }
 
     }
@@ -97,7 +99,7 @@ public class TCPService {
                 }
             } catch (IOException e) {
                 callbackState.sendState(ResponseState.WRONG_CONNECT);
-                out.println("run() reading error" + e.getMessage());
+                System.out.println("run() reading error" + e.getMessage());
             }
         }
 

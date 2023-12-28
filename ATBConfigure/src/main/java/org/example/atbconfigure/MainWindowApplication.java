@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.example.atbconfigure.domain.enums.ResponseState;
 import org.example.atbconfigure.tcpService.ResponseCallback;
 import org.example.atbconfigure.tcpService.ResponseStateCallback;
+import org.example.atbconfigure.tcpService.SendMessageCallback;
 import org.example.atbconfigure.tcpService.TCPService;
 import org.example.atbconfigure.ui.BrowsingWindow;
 import org.example.atbconfigure.ui.ConnectWindow;
@@ -21,6 +22,7 @@ import static org.example.atbconfigure.util.PaneUtil.*;
 public class MainWindowApplication extends Application {
 
     private BrowsingWindow browsingWindow =new BrowsingWindow();
+    private ConnectWindow connectWindow;
     ResponseStateCallback stateCallback = new ResponseStateCallback() {
         @Override
         public void sendState(ResponseState state) {
@@ -39,17 +41,26 @@ public class MainWindowApplication extends Application {
         @Override
         public void sendResponse(byte[] inputLine) {
             browsingWindow.putByteArray(inputLine);
+            switch (inputLine[2]){
+                case 2: onOffDeviceWindow.putResponse(inputLine);
+            }
         }
     };
+    TCPService tcpService = new TCPService(stateCallback, responseCallback);
+    SendMessageCallback sendMessageCallback = new SendMessageCallback() {
+        @Override
+        public void send(byte[] value) {
+            tcpService.sendMessage(value);
+        }
+    };
+    OnOffDeviceWindow onOffDeviceWindow = new OnOffDeviceWindow(sendMessageCallback);
 
     @Override
     public void start(Stage stage) throws IOException {
 
-        TCPService tcpService = new TCPService(stateCallback, responseCallback);
-        ConnectWindow connectWindow = new ConnectWindow(tcpService);
+        connectWindow = new ConnectWindow(tcpService);
         GridPane connectRaw = connectWindow.create();
 
-        OnOffDeviceWindow onOffDeviceWindow = new OnOffDeviceWindow();
         Pane paneOnOfRaw = onOffDeviceWindow.create();
 
         VBox vBox = new VBox();
