@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.example.atbconfigure.tcpService.SendMessageCallback;
 
+import static org.example.atbconfigure.util.CommonUtils.crc8;
 import static org.example.atbconfigure.util.PaneUtil.getGridPane;
 import static org.example.atbconfigure.util.PaneUtil.getGridThreePane;
 
@@ -27,13 +28,16 @@ public class OnOffDeviceWindow {
         ToggleGroup toggleGroup = new ToggleGroup();
         rOn.setToggleGroup(toggleGroup);
         rOff.setToggleGroup(toggleGroup);
+        rOn.setSelected(true);
         VBox vBox = new VBox();
         vBox.getChildren().add(rOn);
         vBox.getChildren().add(rOff);
         Button button = new Button("Send");
         button.setOnAction(event -> {
             byte mode = (byte) (rOn.isSelected() ? 1 : 0);
-            byte[] message = {36,0,0,1,mode,0};
+            byte[] body = {36,0,0,1,mode};
+            byte crc = (byte) crc8(body);
+            byte[] message = {36,0,0,1,mode,crc};
             sendMessageCallback.send(message);
         });
         gridPane.add(vBox,0,0);

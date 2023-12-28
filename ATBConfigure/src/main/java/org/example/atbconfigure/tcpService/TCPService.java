@@ -5,6 +5,7 @@ import org.example.atbconfigure.domain.enums.ResponseState;
 import java.io.*;
 import java.net.Socket;
 
+import static org.example.atbconfigure.util.CommonUtils.isCRCValid;
 import static org.example.atbconfigure.util.CommonUtils.printArray;
 
 
@@ -88,12 +89,13 @@ public class TCPService {
                     byte[] header = new byte[4];
                     dInp.read(header, 0, 4);
                     System.out.println();
-                    byte[] message = new byte[header[3]];
+                    byte[] message = new byte[header[3]+1];
                     dInp.readFully(message); // read the message
                     int size = header.length + message.length;
                     byte[] fullResponseArray = new byte[size];
                     System.arraycopy(header, 0, fullResponseArray, 0, header.length);
                     System.arraycopy(message, 0, fullResponseArray, header.length, message.length);
+                    if(!isCRCValid(fullResponseArray)) continue;
                     printArray(fullResponseArray);
                     System.out.println();
                     callbackResponse.sendResponse(fullResponseArray);
