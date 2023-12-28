@@ -32,6 +32,7 @@ public class MainWindowApplication extends Application {
                     break;
                 case WRONG_CONNECT:
                     ConnectWindow.connectWrong();
+                    onOffDeviceWindow.clear();
                     break;
             }
         }
@@ -42,7 +43,7 @@ public class MainWindowApplication extends Application {
         public void sendResponse(byte[] inputLine) {
             browsingWindow.putByteArray(inputLine);
             switch (inputLine[2]){
-                case 2: onOffDeviceWindow.putResponse(inputLine);
+                case 0: onOffDeviceWindow.putResponse(inputLine);
             }
         }
     };

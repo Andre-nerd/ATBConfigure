@@ -53,5 +53,9 @@ public class OnOffDeviceWindow {
         StringBuilder builder = new StringBuilder();
         builder.append("Status: ");
         if(array[4] == 0) builder.append("OK"); else builder.append("Incorrect mode");
+        putText(builder.toString());
+    }
+    public void clear(){
+        putText("");
     }
 }

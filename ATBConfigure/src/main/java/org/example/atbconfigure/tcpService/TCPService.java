@@ -29,8 +29,8 @@ public class TCPService {
             mSocket = new Socket(mHost, mPort);
             out = new PrintWriter(mSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-            byte[] messageForCheck = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
-            sendMessage(messageForCheck);
+//            byte[] messageForCheck = {9, 8, 7, 6, 5, 3, 3, 3, 1, 1};
+//            sendMessage(messageForCheck);
 
             stateCallback.sendState(ResponseState.SUCCESS_CONNECT);
             EchoClientHandler handler = new EchoClientHandler(mSocket, stateCallback, responseCallback);
