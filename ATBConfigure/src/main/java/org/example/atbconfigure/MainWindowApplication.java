@@ -12,6 +12,7 @@ import org.example.atbconfigure.tcpService.SendMessageCallback;
 import org.example.atbconfigure.tcpService.TCPService;
 import org.example.atbconfigure.ui.BrowsingWindow;
 import org.example.atbconfigure.ui.ConnectWindow;
+import org.example.atbconfigure.ui.NavSolutionWindow;
 import org.example.atbconfigure.ui.OnOffDeviceWindow;
 
 import java.io.IOException;
@@ -55,17 +56,20 @@ public class MainWindowApplication extends Application {
         }
     };
     OnOffDeviceWindow onOffDeviceWindow = new OnOffDeviceWindow(sendMessageCallback);
+    NavSolutionWindow navSolutionWindow = new NavSolutionWindow();
 
     @Override
     public void start(Stage stage) throws IOException {
 
         connectWindow = new ConnectWindow(tcpService);
-        GridPane connectRaw = connectWindow.create();
+        Pane connectRaw = connectWindow.create();
 
         Pane paneOnOfRaw = onOffDeviceWindow.create();
+        Pane navSolutionRaw = navSolutionWindow.create();
 
         VBox vBox = new VBox();
         vBox.getChildren().add(connectRaw);
+        vBox.getChildren().add(navSolutionRaw);
         vBox.getChildren().add(paneOnOfRaw);
 
         VBox browsing = browsingWindow.create();

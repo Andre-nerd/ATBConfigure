@@ -1,11 +1,10 @@
 package org.example.atbconfigure.ui;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -26,7 +25,7 @@ public class ConnectWindow {
         ConnectWindow.tcpService = tcpService;
     }
 
-    public GridPane create() {
+    public Pane create() {
         TextField textIp = new TextField();
         textIp.setText(TCPService.mHost + ":" + TCPService.mPort);
 
@@ -45,7 +44,14 @@ public class ConnectWindow {
 
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);
-        return rootPane;
+        VBox vBox = new VBox();
+        Text title = new Text("IP device:");
+        title.setFill(Color.DARKBLUE);
+        vBox.getChildren().add(title);
+        vBox.getChildren().add(rootPane);
+        Pane pane = new Pane(vBox);
+        pane.setPadding(new Insets(5,0,5,0));
+        return pane;
     }
 
     public static void connectSuccess() {
