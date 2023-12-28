@@ -88,22 +88,41 @@ public class TCPService {
                 while (clientSocket.isConnected()) {
                     byte[] header = new byte[4];
                     dInp.read(header, 0, 4);
-                    System.out.println();
                     byte[] message = new byte[header[3]+1];
                     dInp.readFully(message); // read the message
                     int size = header.length + message.length;
                     byte[] fullResponseArray = new byte[size];
                     System.arraycopy(header, 0, fullResponseArray, 0, header.length);
                     System.arraycopy(message, 0, fullResponseArray, header.length, message.length);
-                    if(!isCRCValid(fullResponseArray)) continue;
-                    printArray(fullResponseArray);
-                    System.out.println();
+                    if(!isCRCValid(fullResponseArray)){
+                        readWrongSequence(dInp);
+                        continue;
+                    }
+                    if(fullResponseArray[2] == 0) {
+                        printArray(fullResponseArray);
+                    }
+//                    System.out.println();
                     callbackResponse.sendResponse(fullResponseArray);
                 }
             } catch (IOException e) {
                 callbackState.sendState(ResponseState.WRONG_CONNECT);
                 System.out.println("run() reading error" + e.getMessage());
             }
+        }
+
+        private void readWrongSequence(DataInputStream dInp) throws IOException {
+            while (clientSocket.isConnected()) {
+                byte bt = dInp.readByte();
+                if(bt==36){
+                    byte[] header = new byte[3];
+                    dInp.read(header, 0, 3);
+                    byte[] message = new byte[header[2]+1];
+                    dInp.readFully(message);
+                    return;
+                }
+            }
+
+
         }
 
 //        public void run() {

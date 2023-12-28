@@ -25,15 +25,12 @@ public class CommonUtils {
         return crc;
     }
     public static boolean isCRCValid(byte[] array){
-        System.out.println("isCRCValid");
-        printArray(array);
         byte[] body = new byte[array.length -1];
         for(int i = 0; i < array.length -1; i++){
             body[i] = array[i];
         }
         byte crc = (byte) crc8(body);
         boolean valid = crc == array[array.length-1];
-        System.out.println("isCRCValid" + valid + " | " +crc);
         return valid;
     }
 }

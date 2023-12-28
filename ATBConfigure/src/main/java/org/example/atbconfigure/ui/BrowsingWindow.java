@@ -24,6 +24,7 @@ public class BrowsingWindow {
         vBox.setPadding(new Insets(5,5,5,5));
         scrollPane.setContent(vBox);
         scrollPane.setPrefViewportHeight(700.0);
+        scrollPane.setPrefViewportWidth(750.0);
         scrollPane.setVvalue(1.0);
         VBox mainBox = new VBox();
         radioButton.setPadding(new Insets(0,0,5,0));
