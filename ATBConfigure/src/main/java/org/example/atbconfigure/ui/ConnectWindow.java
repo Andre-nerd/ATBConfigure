@@ -41,7 +41,7 @@ public class ConnectWindow {
         hBox.getChildren().add(textStateConnection);
 
 
-        GridPane rootPane = getGridPane(50, 50, 5, false);
+        GridPane rootPane = getGridPane(80, 20, 5, false);
 
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);

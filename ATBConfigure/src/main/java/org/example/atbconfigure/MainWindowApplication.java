@@ -58,12 +58,12 @@ public class MainWindowApplication extends Application {
 
         VBox browsing = browsingWindow.create();
 
-        GridPane gridPane = getGridPane(60, 40,10, false);
+        GridPane gridPane = getGridPane(40, 60,10, false);
         gridPane.add(vBox,0,0);
         gridPane.add(browsing,1,0);
         ScrollPane scrollPane = new ScrollPane(gridPane);
 
-        Scene scene = new Scene(scrollPane, 1400, 800);
+        Scene scene = new Scene(scrollPane, 1320, 800);
         stage.setTitle(APP_NAME);
         stage.setScene(scene);
         stage.show();

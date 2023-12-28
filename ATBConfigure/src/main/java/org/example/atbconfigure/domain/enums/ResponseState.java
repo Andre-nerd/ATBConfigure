@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ResponseState {
-    WRONG_CONNECT("Wrong connect"),
-    SUCCESS_CONNECT("Successful connection"),
+    WRONG_CONNECT("Wrong"),
+    SUCCESS_CONNECT("Successful"),
     WRONG_SEND("Error sending message"),
     WRONG_READ("Error reading message"),
     CONNECTING_START("Connecting...");
