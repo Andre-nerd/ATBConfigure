@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.example.atbconfigure.tcpService.SendMessageCallback;
+import org.example.atbconfigure.util.PPane;
 
 import static org.example.atbconfigure.util.CommonUtils.crc8;
 import static org.example.atbconfigure.util.PaneUtil.getGridPane;
@@ -21,7 +22,7 @@ public class OnOffDeviceWindow {
         this.sendMessageCallback = sendMessageCallback;
     }
 
-    public GridPane create(){
+    public Pane create(){
         GridPane gridPane = getGridThreePane(20,40,40,10,false);
         RadioButton rOn = new RadioButton("Reload device  ");
         RadioButton rOff = new RadioButton("OFF device  ");
@@ -44,7 +45,7 @@ public class OnOffDeviceWindow {
         gridPane.add(vBox,0,0);
         gridPane.add(button,1,0);
         gridPane.add(message,2,0);
-        return gridPane;
+        return new PPane(gridPane);
     }
     public void putText(String value){
         message.setText(value);

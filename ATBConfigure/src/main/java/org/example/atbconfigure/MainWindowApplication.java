@@ -1,6 +1,7 @@
 package org.example.atbconfigure;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -71,11 +72,16 @@ public class MainWindowApplication extends Application {
         vBox.getChildren().add(connectRaw);
         vBox.getChildren().add(navSolutionRaw);
         vBox.getChildren().add(paneOnOfRaw);
+        vBox.setPadding(new Insets(0,0,0,5));
+        ScrollPane leftColumn = new ScrollPane(vBox);
+        leftColumn.setPrefViewportHeight(700.0);
+        leftColumn.setPrefViewportWidth(700.0);
 
         VBox browsing = browsingWindow.create();
 
-        GridPane gridPane = getGridPane(45, 55,10, false);
-        gridPane.add(vBox,0,0);
+
+        GridPane gridPane = getGridPane(50, 50,10, false);
+        gridPane.add(leftColumn,0,0);
         gridPane.add(browsing,1,0);
         ScrollPane scrollPane = new ScrollPane(gridPane);
 

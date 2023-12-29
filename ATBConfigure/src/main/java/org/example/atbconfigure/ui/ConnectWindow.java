@@ -1,6 +1,7 @@
 package org.example.atbconfigure.ui;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -10,6 +11,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import org.example.atbconfigure.domain.enums.ResponseState;
 import org.example.atbconfigure.tcpService.TCPService;
+import org.example.atbconfigure.util.PPane;
 
 
 import static org.example.atbconfigure.util.IndicatorUtil.getIndicatorStack;
@@ -36,11 +38,12 @@ public class ConnectWindow {
         );
 
         GridPane gridBox1 = constructPanelTextIndicatorButton(textIp, stackPane, buttonConnect);
-        HBox hBox = getHBoxPadding(10);
+        HBox hBox = new HBox();
         hBox.getChildren().add(textStateConnection);
+        hBox.setAlignment(Pos.CENTER);
 
 
-        GridPane rootPane = getGridPane(80, 20, 5, false);
+        GridPane rootPane = getGridPane(80, 20, 0, false);
 
         rootPane.add(gridBox1, 0, 0);
         rootPane.add(hBox, 1, 0);
@@ -50,8 +53,7 @@ public class ConnectWindow {
         vBox.getChildren().add(title);
         vBox.getChildren().add(rootPane);
         Pane pane = new Pane(vBox);
-        pane.setPadding(new Insets(5,0,5,0));
-        return pane;
+        return new PPane(pane);
     }
 
     public static void connectSuccess() {

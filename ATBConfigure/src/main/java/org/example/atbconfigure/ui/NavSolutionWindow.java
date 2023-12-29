@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import org.example.atbconfigure.util.PPane;
 
 import static org.example.atbconfigure.util.PaneUtil.getGridThreePane;
 
@@ -28,8 +29,7 @@ public class NavSolutionWindow {
         vBox.getChildren().add(title);
         vBox.getChildren().add(hBox);
         Pane pane = new Pane(vBox);
-        pane.setPadding(new Insets(5,0,5,0));
-        return pane;
+        return new PPane(pane);
 
     }
 }

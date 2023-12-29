@@ -11,7 +11,7 @@ import static org.example.atbconfigure.util.CommonUtils.printArray;
 
 public class TCPService {
     //    public static final String mHost = "192.168.128.59";
-    public static final String mHost = "192.168.43.239";
+    public static final String mHost = "192.168.43.218";
     public static final int mPort = 9999;
     private Socket mSocket;
     private PrintWriter out;
