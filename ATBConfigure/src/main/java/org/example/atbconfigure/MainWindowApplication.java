@@ -57,7 +57,7 @@ public class MainWindowApplication extends Application {
         }
     };
     OnOffDeviceWindow onOffDeviceWindow = new OnOffDeviceWindow(sendMessageCallback);
-    NavSolutionWindow navSolutionWindow = new NavSolutionWindow();
+    NavSolutionWindow navSolutionWindow = new NavSolutionWindow(sendMessageCallback);
 
     @Override
     public void start(Stage stage) throws IOException {
